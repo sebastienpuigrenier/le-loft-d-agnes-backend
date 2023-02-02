@@ -1,5 +1,5 @@
 const express = require("express");
-const fs = require("fs");
+// const fs = require("fs");
 const path = require("path");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
@@ -28,6 +28,7 @@ app.use(express.static(path.join(__dirname, "..", "..", "frontend", "dist")));
 // API routes
 app.use(router);
 
+/*
 // Redirect all requests to the REACT app
 const reactIndexFile = path.join(
   __dirname,
@@ -43,6 +44,7 @@ if (fs.existsSync(reactIndexFile)) {
     res.sendFile(reactIndexFile);
   });
 }
+*/
 
 // ready to export
 module.exports = app;
