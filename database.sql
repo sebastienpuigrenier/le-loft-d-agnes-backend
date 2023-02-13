@@ -8,7 +8,7 @@
 
 -- Hôte : 127.0.0.1:3306
 
--- Généré le : jeu. 02 fév. 2023 à 00:55
+-- Généré le : sam. 04 fév. 2023 à 17:31
 
 -- Version du serveur : 8.0.28
 
@@ -55,10 +55,24 @@ DROP TABLE IF EXISTS `administrateurs`;
 CREATE TABLE
     IF NOT EXISTS `administrateurs` (
         `id` varchar(42) NOT NULL,
-        `email` varchar(42) DEFAULT NULL,
-        `mot_de_passe` varchar(42) DEFAULT NULL,
+        `email` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+        `motdepasse` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
         PRIMARY KEY (`id`)
     ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
+
+--
+
+-- Déchargement des données de la table `administrateurs`
+
+--
+
+INSERT INTO
+    `administrateurs` (`id`, `email`, `motdepasse`)
+VALUES (
+        '60650f68-27d8-4337-91f4-ebc243c82dea',
+        'admin@admin.fr',
+        '$argon2id$v=19$m=16,t=2,p=1$c3VwZXJsb25ndGV4dGZvcmp3dHBvdXJsZXNpdGVsZWxvZnRkYWduZXNzZWN1cml0ZQ$zGzVy3hVcE9THS0fKVyjHQ'
+    );
 
 -- --------------------------------------------------------
 
@@ -122,9 +136,22 @@ DROP TABLE IF EXISTS `cuirs`;
 CREATE TABLE
     IF NOT EXISTS `cuirs` (
         `num_cuirs` varchar(42) NOT NULL,
-        `couleur` varchar(42) DEFAULT NULL,
+        `couleur` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
         PRIMARY KEY (`num_cuirs`)
     ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
+
+--
+
+-- Déchargement des données de la table `cuirs`
+
+--
+
+INSERT INTO
+    `cuirs` (`num_cuirs`, `couleur`)
+VALUES (
+        '30690d5f-e546-45b7-baf4-222fed1fb97d',
+        'noir'
+    );
 
 -- --------------------------------------------------------
 
@@ -222,7 +249,18 @@ VALUES (
         NULL,
         NULL
     ), (
-        '826ce267-f105-4c3a-9ae5-d11100ad6661',
+        '906096e4-bbbf-4103-8105-ce53bd770647',
+        'e5575055-eeda-458c-b43d-48e9474685fc.png',
+        'https://i.imgur.com/fpAt3fY.png',
+        0,
+        1,
+        0,
+        NULL,
+        NULL,
+        NULL,
+        '906096e4-bbbf-4103-8105-ce53bd770647'
+    ), (
+        'a92de08d-92c8-4599-9785-fce096aae2a6',
         'b6cf480a-e59c-4a2c-847a-95950d6e0f80.png',
         'https://i.imgur.com/GifWPGP.png',
         0,
@@ -233,14 +271,14 @@ VALUES (
         NULL,
         NULL
     ), (
-        'a92de08d-92c8-4599-9785-fce096aae2a6',
-        'b6cf480a-e59c-4a2c-847a-95950d6e0f80.png',
-        'https://i.imgur.com/GifWPGP.png',
+        'b487a0eb-6fb0-49ef-99d6-742e2ec602be',
+        '21c9b0e4-b10d-4765-a5dc-6a1e195ccb98.png',
+        'https://i.imgur.com/yssyldk.png',
         0,
         1,
         0,
-        'f0d5e8f3-07ea-4f04-bef1-d1cd4f223bff',
         NULL,
+        '74078391-50e7-48ef-81c9-fd8cb5a9fdd4',
         NULL,
         NULL
     ), (
@@ -280,9 +318,22 @@ DROP TABLE IF EXISTS `polices`;
 CREATE TABLE
     IF NOT EXISTS `polices` (
         `num_polices` varchar(42) NOT NULL,
-        `nom` varchar(42) DEFAULT NULL,
+        `nom` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
         PRIMARY KEY (`num_polices`)
     ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
+
+--
+
+-- Déchargement des données de la table `polices`
+
+--
+
+INSERT INTO
+    `polices` (`num_polices`, `nom`)
+VALUES (
+        '906096e4-bbbf-4103-8105-ce53bd770647',
+        'Itim'
+    );
 
 -- --------------------------------------------------------
 
@@ -296,17 +347,17 @@ DROP TABLE IF EXISTS `produits`;
 
 CREATE TABLE
     IF NOT EXISTS `produits` (
-        `num_produits` varchar(42) NOT NULL,
+        `num_produits` varchar(42) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
         `nom` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
         `description` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
         `peut_avoir_une_police` tinyint(1) NOT NULL,
+        `peut_avoir_un_cuir` tinyint(1) NOT NULL,
         `longueur` decimal(5, 2) DEFAULT NULL,
         `largeur` decimal(5, 2) DEFAULT NULL,
         `hauteur` decimal(5, 2) DEFAULT NULL,
         `prix` decimal(5, 2) DEFAULT NULL,
-        `num_categories` varchar(42) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-        `peut_avoir_un_cuir` tinyint(1) DEFAULT NULL,
         `priorité` int DEFAULT NULL,
+        `num_categories` varchar(42) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
         PRIMARY KEY (`num_produits`),
         KEY `PRODUIT_FK1` (`num_categories`)
     ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
@@ -323,26 +374,38 @@ INSERT INTO
         `nom`,
         `description`,
         `peut_avoir_une_police`,
+        `peut_avoir_un_cuir`,
         `longueur`,
         `largeur`,
         `hauteur`,
         `prix`,
-        `num_categories`,
-        `peut_avoir_un_cuir`,
-        `priorité`
+        `priorité`,
+        `num_categories`
     )
 VALUES (
+        '74078391-50e7-48ef-81c9-fd8cb5a9fdd4',
+        'Plateau rectangle',
+        'Personnalisation au delà de 8 mots : supplément de 3€',
+        1,
+        1,
+        '15.00',
+        '50.00',
+        NULL,
+        '26.90',
+        2,
+        '98fee939-1c9f-41c1-a7ce-e5bbb7f33f57'
+    ), (
         'c967aac7-ae64-444b-8765-074e301ac3ad',
         'Plateau carré',
         'Personnalisation au delà de 8 mots : supplément de 3€',
+        1,
         1,
         '30.00',
         '30.00',
         NULL,
         '28.90',
-        '98fee939-1c9f-41c1-a7ce-e5bbb7f33f57',
-        NULL,
-        1
+        1,
+        '98fee939-1c9f-41c1-a7ce-e5bbb7f33f57'
     );
 
 --
