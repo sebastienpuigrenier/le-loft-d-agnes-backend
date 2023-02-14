@@ -7,6 +7,9 @@ const AuthController = require("./controllers/AuthController");
 const PhotosController = require("./controllers/PhotosController");
 
 const { fileMiddleware } = require("./middlewares/fileMiddleware");
+const {
+  middlewareAdministrateur,
+} = require("./middlewares/adminCheckMiddleware");
 
 const router = express.Router();
 
@@ -23,6 +26,7 @@ router.get(
 
 router.post(
   "/create_categorie",
+  middlewareAdministrateur,
   fileMiddleware,
   CategoriesController.create,
   PhotosController.create
@@ -30,6 +34,7 @@ router.post(
 
 router.put(
   "/modif_categorie/:uuid",
+  middlewareAdministrateur,
   fileMiddleware,
   CategoriesController.modify,
   PhotosController.modify
@@ -37,6 +42,7 @@ router.put(
 
 router.delete(
   "/delete_categorie/:uuidCat/photo/:uuidPhoto",
+  middlewareAdministrateur,
   PhotosController.delete,
   CategoriesController.delete
 );

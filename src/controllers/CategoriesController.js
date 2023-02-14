@@ -30,6 +30,7 @@ class CategoriesController {
         req.body = {
           ...req.body,
           numCollection: newNumCollection,
+          nomCategorie: req.body.nom,
         };
         next();
       })

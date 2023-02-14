@@ -4,6 +4,14 @@ class PhotosManager extends AbstractManager {
   static table = "photos";
 
   insert(newPhoto) {
+    let photo = newPhoto;
+    if (newPhoto.nomCategorie === "Objets déco") {
+      photo = {
+        ...newPhoto,
+        localhostlien: "https://i.imgur.com/F9nqTGR.png",
+      };
+    }
+    console.warn("photo", photo);
     return this.connection.query(
       `INSERT INTO ${this.table} (
         num_photos,
@@ -19,16 +27,16 @@ class PhotosManager extends AbstractManager {
         )
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`,
       [
-        newPhoto.num_photo,
-        newPhoto.lien,
-        newPhoto.localhostlien ? newPhoto.localhostlien : null,
-        newPhoto.ismaxi ? newPhoto.ismaxi : false,
-        newPhoto.ismedium ? newPhoto.ismedium : false,
-        newPhoto.ismini ? newPhoto.ismini : false,
-        newPhoto.num_categorie ? newPhoto.num_categorie : null,
-        newPhoto.num_produit ? newPhoto.num_produit : null,
-        newPhoto.num_cuir ? newPhoto.num_cuir : null,
-        newPhoto.num_police ? newPhoto.num_police : null,
+        photo.num_photo,
+        photo.lien,
+        photo.localhostlien ? photo.localhostlien : null,
+        photo.ismaxi ? photo.ismaxi : false,
+        photo.ismedium ? photo.ismedium : false,
+        photo.ismini ? photo.ismini : false,
+        photo.num_categorie ? photo.num_categorie : null,
+        photo.num_produit ? photo.num_produit : null,
+        photo.num_cuir ? photo.num_cuir : null,
+        photo.num_police ? photo.num_police : null,
       ]
     );
   }

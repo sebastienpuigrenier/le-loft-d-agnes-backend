@@ -14,6 +14,7 @@ class PhotosController {
       newPhoto = {
         ...newPhoto,
         num_categorie: req.body.numCollection,
+        nomCategorie: req.body.nom,
       };
       message = "Nouvelle catégorie créée.";
     }
